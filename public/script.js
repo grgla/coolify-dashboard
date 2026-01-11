@@ -19,7 +19,6 @@ const memoryChart = new Chart(memoryCtx, {
   }
 });
 
-// Chart.js para CPU
 const cpuChart = new Chart(cpuCtx, {
   type: "bar",
   data: {
@@ -28,3 +27,35 @@ const cpuChart = new Chart(cpuCtx, {
       label: "CPU cores",
       data: [0],
       backgroundColor: ["#f44336"]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+async function fetchStats() {
+  try {
+    const res = await fetch("/api/stats");
+    const stats = await res.json();
+
+    uptimeEl.textContent = Math.floor(stats.uptime);
+
+    const rssM = (stats.memory.rss / 1024 / 1024).toFixed(2);
+    const heapUsedM = (stats.memory.heapUsed / 1024 / 1024).toFixed(2);
+    const heapTotalM = (stats.memory.heapTotal / 1024 / 1024).toFixed(2);
+
+    memoryChart.data.datasets[0].data = [rssM, heapUsedM, heapTotalM];
+    memoryChart.update();
+
+    cpuChart.data.datasets[0].data = [stats.cpus];
+    cpuChart.update();
+  } catch (error) {
+    console.error("Error fetching stats:", error);
+  }
+}
+
+fetchStats();
+setInterval(fetchStats, 2000);
