@@ -1,0 +1,107 @@
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     background: linear-gradient(135deg, #071226 0%, #06343a 60%, #052b32 100%);
+     min-height: 100vh;
+     padding: 28px;
+     color: #cfeee8;
+ }
+
+ .container {
+     max-width: 1200px;
+     margin: 0 auto;
+ }
+
+ h1 {
+     text-align: center;
+     color: #f6d37a; 
+     margin-bottom: 36px;
+     font-size: 2.25rem;
+     letter-spacing: 0.6px;
+     text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+ }
+
+ .dashboard {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+     gap: 26px;
+     margin-bottom: 30px;
+ }
+
+ .card {
+     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+     border: 1px solid rgba(255,255,255,0.04);
+     border-radius: 14px;
+     padding: 22px;
+     box-shadow: 0 10px 30px rgba(2,8,23,0.5), inset 0 1px 0 rgba(255,255,255,0.02);
+     transition: transform 0.22s ease, box-shadow 0.22s ease;
+ }
+
+ .card:hover {
+     transform: translateY(-6px);
+     box-shadow: 0 18px 50px rgba(2,8,23,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+ }
+
+ .card h2 {
+     color: #9be7d3; /* soft teal */
+     margin-bottom: 14px;
+     font-size: 1.15rem;
+     border-bottom: 1px solid rgba(155,231,211,0.06);
+     padding-bottom: 10px;
+ }
+
+ canvas {
+     max-width: 100%;
+     height: auto;
+ }
+
+ .uptime-card {
+     background: linear-gradient(135deg, rgba(246,211,122,0.09), rgba(34,47,51,0.06));
+     color: #fff7e6;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+     min-height: 200px;
+     text-align: center;
+     border: 1px solid rgba(246,211,122,0.06);
+ }
+
+ .uptime-card h2 {
+     color: #ffe7b5;
+     border-bottom: 1px solid rgba(255,255,255,0.03);
+ }
+
+ .uptime-value {
+     font-size: 2.25rem;
+     font-weight: 700;
+     margin-top: 12px;
+     font-family: 'Courier New', monospace;
+     color: #fffaf0;
+ }
+
+ .uptime-label {
+     font-size: 0.95rem;
+     opacity: 0.9;
+     margin-top: 6px;
+     color: #f5f0e6;
+ }
+
+ @media (max-width: 768px) {
+     .dashboard {
+         grid-template-columns: 1fr;
+     }
+
+     h1 {
+         font-size: 1.6rem;
+     }
+
+     .card {
+         padding: 16px;
+     }
+ }

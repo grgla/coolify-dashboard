@@ -7,18 +7,37 @@ const memoryChart = new Chart(memoryCtx, {
   data: {
     labels: ["RSS", "Heap Used", "Heap Total"],
     datasets: [{
-      label: "Memory (bytes)",
+      label: "Memory (MB)",
       data: [0, 0, 0],
       backgroundColor: ["#4caf50","#2196f3","#ff9800"]
     }]
   },
   options: {
     responsive: true,
-    plugins: { legend: { display: false } },
-    scales: { y: { beginAtZero: true } }
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            const value = ctx.parsed.y ?? ctx.parsed; // support different chart versions
+            return `${ctx.dataset.label || 'Memory'}: ${value} MB`;
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback(value) { return value + ' MB'; }
+        },
+        title: { display: true, text: 'Megabytes (MB)' }
+      }
+    }
   }
 });
 
+// CPU chart: add tooltip callback to clarify units (cores)
 const cpuChart = new Chart(cpuCtx, {
   type: "bar",
   data: {
@@ -31,8 +50,18 @@ const cpuChart = new Chart(cpuCtx, {
   },
   options: {
     responsive: true,
-    plugins: { legend: { display: false } },
-    scales: { y: { beginAtZero: true } }
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            const v = ctx.parsed.y ?? ctx.parsed;
+            return `Cores: ${v}`;
+          }
+        }
+      }
+    },
+    scales: { y: { beginAtZero: true, title: { display: true, text: 'Cores' } } }
   }
 });
 
@@ -43,9 +72,10 @@ async function fetchStats() {
 
     uptimeEl.textContent = Math.floor(stats.uptime);
 
-    const rssM = (stats.memory.rss / 1024 / 1024).toFixed(2);
-    const heapUsedM = (stats.memory.heapUsed / 1024 / 1024).toFixed(2);
-    const heapTotalM = (stats.memory.heapTotal / 1024 / 1024).toFixed(2);
+    // Convert bytes to MB (numbers)
+    const rssM = parseFloat((stats.memory.rss / 1024 / 1024).toFixed(2));
+    const heapUsedM = parseFloat((stats.memory.heapUsed / 1024 / 1024).toFixed(2));
+    const heapTotalM = parseFloat((stats.memory.heapTotal / 1024 / 1024).toFixed(2));
 
     memoryChart.data.datasets[0].data = [rssM, heapUsedM, heapTotalM];
     memoryChart.update();
