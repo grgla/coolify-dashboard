@@ -1,6 +1,15 @@
 # Coolify Dashboard
 
-Mini API for Home Lab, deployable on Coolify.
+A mini Home Lab dashboard, deployable on Coolify, that visualizes memory, CPU, and server uptime in real-time.
 
-- The `/` route returns uptime, memory, and CPU information.
-- Ready to be scaled into a visual dashboard.
+## Features
+
+- Serves a visual dashboard using **Chart.js**.
+- Real-time metrics for:
+  - Memory (RSS, Heap Used, Heap Total)
+  - CPU cores
+  - Server uptime
+- Fully responsive and styled with modern CSS.
+
+## Project Structure
+
